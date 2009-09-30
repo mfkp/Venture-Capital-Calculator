@@ -3,4 +3,6 @@
 	<mx:Label y="10" text="Venture Capital Method" horizontalCenter="0" fontSize="20"/>
 	<mx:TextInput x="50" y="73" id="monthsToExit" text="Months To Exit (1-60)" maxChars="2" displayAsPassword="false" editable="true" enabled="true" click="if(this.monthsToExit.text=='Months To Exit (1-60)'){this.monthsToExit.text=''}" focusOut="if(this.monthsToExit.text==''){this.monthsToExit.text='Months To Exit (1-60)'}"/>
 	<mx:TextInput x="50" y="103" id="monthsToExit2" text="Months To Exit (1-60)" maxChars="2" displayAsPassword="false" editable="true" enabled="true" click="if(this.monthsToExit2.text=='Months To Exit (1-60)'){this.monthsToExit2.text=''}" focusOut="if(this.monthsToExit2.text==''){this.monthsToExit2.text='Months To Exit (1-60)'}"/>
+	
+	<mx:Script source="VCCalc.as" />
 </mx:WindowedApplication>
