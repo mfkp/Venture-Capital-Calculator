@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]">
+	<mx:Label y="10" text="Venture Capital Method" horizontalCenter="0" fontSize="20"/>
+	<mx:TextInput x="50" y="73" id="monthsToExit" text="Months To Exit (1-60)" maxChars="2" displayAsPassword="false" editable="true" enabled="true" click="if(this.monthsToExit.text=='Months To Exit (1-60)'){this.monthsToExit.text=''}" focusOut="if(this.monthsToExit.text==''){this.monthsToExit.text='Months To Exit (1-60)'}"/>
+	<mx:TextInput x="50" y="103" id="monthsToExit2" text="Months To Exit (1-60)" maxChars="2" displayAsPassword="false" editable="true" enabled="true" click="if(this.monthsToExit2.text=='Months To Exit (1-60)'){this.monthsToExit2.text=''}" focusOut="if(this.monthsToExit2.text==''){this.monthsToExit2.text='Months To Exit (1-60)'}"/>
+</mx:WindowedApplication>
