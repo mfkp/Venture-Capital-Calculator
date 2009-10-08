@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="402" currentState="Start">
+	<mx:Script>
+        <![CDATA[
+
+            [Bindable]
+            public var labels:Array = ["Years from Initiation", "Years to Exit", "VC's Required ROI", "New VC Investment", 
+            							"VC's Rqd Terminal Value", "Terminal % Ownership", "Retention %", "Initial % Ownership",
+            							"Shares Issued", "Shares Outstanding", "Share Price", "Firm Valuation", "Investment value at exit"]; 
+        ]]>
+
+    </mx:Script>
 	<mx:states>
 		<mx:State name="Output">
 			<mx:RemoveChild target="{vbox1}"/>
@@ -10,11 +20,11 @@
 			<mx:RemoveChild target="{managementSharesParent}"/>
 			<mx:RemoveChild target="{seriesInputParent}"/>
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
-				<mx:AdvancedDataGrid id="output_table" designViewDataType="flat" width="100%" height="90%">
+				<mx:AdvancedDataGrid id="output_table" designViewDataType="flat" width="100%" height="100%">
 					<mx:columns>
-						<mx:AdvancedDataGridColumn headerText="Column 1" dataField="col1"/>
-						<mx:AdvancedDataGridColumn headerText="Column 2" dataField="col2"/>
-						<mx:AdvancedDataGridColumn headerText="Column 3" dataField="col3"/>
+						<mx:AdvancedDataGridColumn headerText="Founders" dataField="col1"/>
+						<mx:AdvancedDataGridColumn headerText="A" dataField="col2"/>
+						<mx:AdvancedDataGridColumn headerText="Mgmt/VC Exit" dataField="col3"/>
 					</mx:columns>
 				</mx:AdvancedDataGrid>
 			</mx:AddChild>
@@ -24,7 +34,16 @@
 			<mx:SetProperty target="{inputParent}" name="x"/>
 			<mx:SetStyle target="{inputParent}" name="horizontalCenter" value="0"/>
 			<mx:SetProperty target="{inputParent}" name="y"/>
-			<mx:SetStyle target="{inputParent}" name="verticalCenter" value="-74"/>
+			<mx:AddChild relativeTo="{output_table}" position="before">
+				<mx:DataGrid dataProvider="{labels}" width="150" height="100%">
+					<mx:columns>
+						<mx:DataGridColumn headerText=" " dataField="col1"/>
+					</mx:columns>
+				</mx:DataGrid>
+			</mx:AddChild>
+			<mx:SetProperty target="{hbox3}" name="height" value="100%"/>
+			<mx:SetProperty target="{inputParent}" name="height" value="100%"/>
+			<mx:SetStyle target="{inputParent}" name="top" value="50"/>
 		</mx:State>
 		<mx:State name="Start"/>
 	</mx:states>
@@ -83,7 +102,7 @@
 				<mx:TextInput id="numFreeShares"/>
 			</mx:VBox>
 		</mx:HBox>
-		<mx:HBox width="100%" id="hbox3">
+		<mx:HBox width="100%" height="100%" id="hbox3">
 			<mx:VBox width="50%" height="100%" id="vbox3">
 				<mx:Label text="P/E ratio"/>
 				<mx:Label text="Earnings"/>
