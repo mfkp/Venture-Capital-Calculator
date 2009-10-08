@@ -1,5 +1,6 @@
 // ActionScript file
 // @author Jason Kruse, Kyle Powers
+import mx.charts.chartClasses.StackedSeries;
 import mx.collections.ArrayCollection;
 
 private var seriesLetters:Array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -71,18 +72,19 @@ private function calculate():void {
 		rounds[y].investmentValueAtExit = rounds[y].sharesIssued * rounds[rounds.length-1].sharePrice;
 	}
 	founders.investmentValueAtExit = founders.sharesIssued * rounds[rounds.length-1].sharePrice;
-	fillGrid();
 	currentState='Output';
-}
+	fillGrid();
+	}
 
 private function fillGrid():void{
+	
 	var str:String; 
 	var temp:Object = new Object(); 
-	//addDataGridColumn("Founders");
-	for(var x:int = 1;x<= int(numRounds.text); x++){
-		addDataGridColumn("col" + x);
+	addDataGridColumn("col0", "Founders");
+	for(var x:int=1;x<= int(numRounds.text); x++){
+		addDataGridColumn("col" + x, "Round " + x);
 	}
-	//addDataGridColumn("Exit");
+	addDataGridColumn("col" + (output_table.columns.length + 1), "Exit");
 	/*
 	for(var i:int=0;i<13;i++){
 		str = String("col"+Number(i+1)); 
@@ -118,15 +120,15 @@ private function switchRound(dir:int):void {
 }
 
 
-private function addDataGridColumn(dataField:String):void {
+private function addDataGridColumn(dataField:String, header:String):void {
     var dgc:AdvancedDataGridColumn = new AdvancedDataGridColumn(dataField);
     dgc.visible = true;
-    dgc.headerText = "Round " + (output_table.columns.length + 1);
+    dgc.headerText = header;
     var cols:Array = output_table.columns;
     cols.push(dgc);
     output_table.columns = cols;
 }
 
 private function init():void {
-    addDataGridColumn("col" + (output_table.columns.length + 1));
+    addDataGridColumn("col" + (output_table.columns.length + 1), "Round" + (output_table.columns.length + 1));
 }

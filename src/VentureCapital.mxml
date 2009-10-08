@@ -26,7 +26,7 @@
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
 				<mx:AdvancedDataGrid id="output_table" designViewDataType="flat" width="100%" height="100%" dataProvider="{arrCol}">
 					<mx:columns>
-						<mx:AdvancedDataGridColumn headerText="Founders" dataField="col1"/>
+						<mx:AdvancedDataGridColumn/>
 					</mx:columns>
 				</mx:AdvancedDataGrid>
 			</mx:AddChild>
