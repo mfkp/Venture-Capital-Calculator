@@ -7,9 +7,13 @@
             public var labels:Array = ["Years from Initiation", "Years to Exit", "VC's Required ROI", "New VC Investment", 
             							"VC's Rqd Terminal Value", "Terminal % Ownership", "Retention %", "Initial % Ownership",
             							"Shares Issued", "Shares Outstanding", "Share Price", "Firm Valuation", "Investment value at exit"]; 
+            [Bindable]
+ 			public var columns:Array = ["hello"];
+ 			//columns.push("Col1");
         ]]>
 
     </mx:Script>
+    <mx:Script source="VCCalc.as" />
 	<mx:states>
 		<mx:State name="Output">
 			<mx:RemoveChild target="{vbox1}"/>
@@ -20,17 +24,14 @@
 			<mx:RemoveChild target="{managementSharesParent}"/>
 			<mx:RemoveChild target="{seriesInputParent}"/>
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
-				<mx:AdvancedDataGrid id="output_table" designViewDataType="flat" width="100%" height="100%">
+				<mx:AdvancedDataGrid id="output_table" designViewDataType="flat" width="100%" height="100%" dataProvider="{arrCol}">
 					<mx:columns>
 						<mx:AdvancedDataGridColumn headerText="Founders" dataField="col1"/>
-						<mx:AdvancedDataGridColumn headerText="A" dataField="col2"/>
-						<mx:AdvancedDataGridColumn headerText="Mgmt/VC Exit" dataField="col3"/>
 					</mx:columns>
 				</mx:AdvancedDataGrid>
 			</mx:AddChild>
 			<mx:SetProperty target="{calcbutton}" name="label" value="Back"/>
 			<mx:SetEventHandler target="{calcbutton}" name="click" handler="currentState='Start'"/>
-			<mx:RemoveChild target="{button1}"/>
 			<mx:SetProperty target="{inputParent}" name="x"/>
 			<mx:SetStyle target="{inputParent}" name="horizontalCenter" value="0"/>
 			<mx:SetProperty target="{inputParent}" name="y"/>
@@ -47,7 +48,20 @@
 		</mx:State>
 		<mx:State name="Start"/>
 	</mx:states>
-	<mx:Script source="VCCalc.as" />
+	
+	<mx:ArrayCollection id="arrCol">
+        <mx:source>
+            <mx:Array>
+                <mx:Object col1="A.1" col2="A.2" col3="A.3" col4="A.4"/>
+                <mx:Object col1="B.1" col2="B.2" col3="B.3" col4="B.4"/>
+                <mx:Object col1="C.1" col2="C.2" col3="C.3" col4="C.4"/>
+                <mx:Object col1="D.1" col2="D.2" col3="D.3" col4="D.4"/>
+                <mx:Object col1="E.1" col2="E.2" col3="E.3" col4="E.4"/>
+                <mx:Object col1="F.1" col2="F.2" col3="F.3" col4="F.4"/>
+            </mx:Array>
+        </mx:source>
+    </mx:ArrayCollection>
+	
 	<mx:Label y="20" text="Venture Capital Method" horizontalCenter="-13" fontSize="20"/>
 	<mx:VBox width="100%" x="20" y="59" id="inputParent">
 		<mx:HBox width="100%" id="hbox1">
@@ -112,8 +126,10 @@
 				<mx:TextInput id="earnings" tabIndex="11" />
 			</mx:VBox>
 		</mx:HBox>
-		<mx:Button label="Calculate" id="calcbutton" click="currentState='Output'"/>
-		<mx:Button label="Go Go" click="test()" id="button1"/>	
+		<mx:ApplicationControlBar dock="true">
+		<mx:Button label="Calculate" id="calcbutton" click="calculate();"/>
+		<mx:Button label="Add column" click="init();" />
+		</mx:ApplicationControlBar>
 	</mx:VBox>	
 	
 		
