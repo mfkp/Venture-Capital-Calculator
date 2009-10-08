@@ -1,8 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]">
-	<mx:Label y="10" text="Venture Capital Method" horizontalCenter="0" fontSize="20"/>
-	<mx:TextInput x="50" y="73" id="monthsToExit" text="Months To Exit (1-60)" maxChars="2" displayAsPassword="false" editable="true" enabled="true" click="if(this.monthsToExit.text=='Months To Exit (1-60)'){this.monthsToExit.text=''}" focusOut="if(this.monthsToExit.text==''){this.monthsToExit.text='Months To Exit (1-60)'}"/>
-	<mx:TextInput x="50" y="103" id="monthsToExit2" text="Months To Exit (1-60)" maxChars="2" displayAsPassword="false" editable="true" enabled="true" click="if(this.monthsToExit2.text=='Months To Exit (1-60)'){this.monthsToExit2.text=''}" focusOut="if(this.monthsToExit2.text==''){this.monthsToExit2.text='Months To Exit (1-60)'}"/>
-	
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="402">
 	<mx:Script source="VCCalc.as" />
+	<mx:Label y="20" text="Venture Capital Method" horizontalCenter="-13" fontSize="20"/>
+	<mx:VBox width="50%" x="20" y="59" id="inputParent">
+		<mx:HBox width="100%">
+			<mx:VBox width="50%" height="100%">
+				<mx:Label text="Months to exit"/>
+				<mx:Label text="Investment rounds"/>
+			</mx:VBox>
+			<mx:VBox width="50%" height="100%">
+				<mx:TextInput id="toExit"/>
+				<mx:TextInput id="numRounds" change="openRounds()"/>
+			</mx:VBox>
+		</mx:HBox>
+		<mx:VBox width="100%" id="seriesInputParent" height="0">
+			<mx:Label text="Series #"/>
+			<mx:HBox width="100%">
+				<mx:VBox width="50%" height="100%">
+					<mx:Label text="Months to investment"/>
+					<mx:Label text="Investment amount"/>
+					<mx:Label text="Target ROI"/>
+				</mx:VBox>
+				<mx:VBox width="50%" height="100%">
+					<mx:TextInput id="monToInvestment"/>
+					<mx:TextInput id="InvestmentAmount"/>
+					<mx:TextInput id="targetROI"/>
+				</mx:VBox>
+			</mx:HBox>
+			<mx:Canvas width="100%">
+				<mx:Button label="Prev" left="0" />
+				<mx:Button label="Next" right="0" />	
+			</mx:Canvas>
+		</mx:VBox>
+		<mx:HBox width="100%">
+			<mx:VBox width="50%" height="100%">
+				<mx:Label text="Number of founder shares"/>
+				<mx:Label text="Include management pool"/>
+			</mx:VBox>
+			<mx:VBox width="50%" height="100%">
+				<mx:TextInput id="numFounderShares"/>
+				<mx:HBox width="100%">
+					<mx:RadioButtonGroup id="managementPool"/>
+					<mx:RadioButton label="Yes" groupName="managementPool"/>
+					<mx:RadioButton label="No" groupName="managementPool"/>	
+				</mx:HBox>
+				
+			</mx:VBox>
+		</mx:HBox>
+		<mx:HBox width="100%" id="managementSharesParent" height="0">
+			<mx:VBox width="50%" height="100%">
+				<mx:Label text="Number of unallocated shares"/>
+			</mx:VBox>
+			<mx:VBox width="50%" height="100%">
+				<mx:TextInput id="numFreeShares"/>
+			</mx:VBox>
+		</mx:HBox>
+		<mx:HBox width="100%">
+			<mx:VBox width="50%" height="100%">
+				<mx:Label text="P/E ratio"/>
+				<mx:Label text="Earnings"/>
+			</mx:VBox>
+			<mx:VBox width="50%" height="100%">
+				<mx:TextInput id="PERatio"/>
+				<mx:TextInput id="earnings"/>
+			</mx:VBox>
+		</mx:HBox>
+		<mx:Button label="Go Go" click="test()"/>	
+	</mx:VBox>	
+	
+		
 </mx:WindowedApplication>
