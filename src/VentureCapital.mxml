@@ -5,16 +5,16 @@
 	<mx:VBox width="50%" x="20" y="59" id="inputParent">
 		<mx:HBox width="100%">
 			<mx:VBox width="50%" height="100%">
-				<mx:Label text="Months to exit"/>
-				<mx:Label text="Investment rounds"/>
+				<mx:Label text="Months to exit" />
+				<mx:Label text="Investment rounds" /> 
 			</mx:VBox>
 			<mx:VBox width="50%" height="100%">
-				<mx:TextInput id="toExit"/>
-				<mx:TextInput id="numRounds" change="openRounds()"/>
+				<mx:TextInput id="toExit" tabIndex="1"/>
+				<mx:TextInput id="numRounds" change="openRounds()" tabIndex="2"/>
 			</mx:VBox>
 		</mx:HBox>
 		<mx:VBox width="100%" id="seriesInputParent" height="0">
-			<mx:Label text="Series #"/>
+			<mx:Label text="Series A" id="serieslbl" />
 			<mx:HBox width="100%">
 				<mx:VBox width="50%" height="100%">
 					<mx:Label text="Months to investment"/>
@@ -22,14 +22,14 @@
 					<mx:Label text="Target ROI"/>
 				</mx:VBox>
 				<mx:VBox width="50%" height="100%">
-					<mx:TextInput id="monToInvestment"/>
-					<mx:TextInput id="InvestmentAmount"/>
-					<mx:TextInput id="targetROI"/>
+					<mx:TextInput id="monToInvestment" tabIndex="3"/>
+					<mx:TextInput id="investmentAmount" tabIndex="4"/>
+					<mx:TextInput id="targetROI" tabIndex="5"/>
 				</mx:VBox>
 			</mx:HBox>
 			<mx:Canvas width="100%">
-				<mx:Button label="Prev" left="0" />
-				<mx:Button label="Next" right="0" />	
+				<mx:Button label="Prev" left="0" click="switchRound(-1)" id="prevbtn" enabled="false" />
+				<mx:Button label="Next" right="0" click="switchRound(1)" id="nextbtn" />	
 			</mx:Canvas>
 		</mx:VBox>
 		<mx:HBox width="100%">
@@ -38,18 +38,18 @@
 				<mx:Label text="Include management pool"/>
 			</mx:VBox>
 			<mx:VBox width="50%" height="100%">
-				<mx:TextInput id="numFounderShares"/>
+				<mx:TextInput id="numFounderShares" tabIndex="6"/>
 				<mx:HBox width="100%">
 					<mx:RadioButtonGroup id="managementPool"/>
-					<mx:RadioButton label="Yes" groupName="managementPool"/>
-					<mx:RadioButton label="No" groupName="managementPool"/>	
+					<mx:RadioButton label="Yes" groupName="managementPool" click="toggleManPool(true)" tabIndex="7" />
+					<mx:RadioButton label="No" groupName="managementPool" click="toggleManPool(false)" tabIndex="8" />	
 				</mx:HBox>
 				
 			</mx:VBox>
 		</mx:HBox>
 		<mx:HBox width="100%" id="managementSharesParent" height="0">
 			<mx:VBox width="50%" height="100%">
-				<mx:Label text="Number of unallocated shares"/>
+				<mx:Label text="Number of unallocated shares" tabIndex="9"/>
 			</mx:VBox>
 			<mx:VBox width="50%" height="100%">
 				<mx:TextInput id="numFreeShares"/>
@@ -61,8 +61,8 @@
 				<mx:Label text="Earnings"/>
 			</mx:VBox>
 			<mx:VBox width="50%" height="100%">
-				<mx:TextInput id="PERatio"/>
-				<mx:TextInput id="earnings"/>
+				<mx:TextInput id="PERatio" tabIndex="10" /> 
+				<mx:TextInput id="earnings" tabIndex="11" />
 			</mx:VBox>
 		</mx:HBox>
 		<mx:Button label="Go Go" click="test()"/>	
