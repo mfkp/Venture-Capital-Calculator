@@ -71,9 +71,28 @@ private function calculate():void {
 		rounds[y].investmentValueAtExit = rounds[y].sharesIssued * rounds[rounds.length-1].sharePrice;
 	}
 	founders.investmentValueAtExit = founders.sharesIssued * rounds[rounds.length-1].sharePrice;
-
+	fillGrid();
 	currentState='Output';
 }
+
+private function fillGrid():void{
+	var str:String; 
+	var temp:Object = new Object(); 
+	//addDataGridColumn("Founders");
+	for(var x:int = 1;x<= int(numRounds.text); x++){
+		addDataGridColumn("col" + x);
+	}
+	//addDataGridColumn("Exit");
+	/*
+	for(var i:int=0;i<13;i++){
+		str = String("col"+Number(i+1)); 
+		temp[str] = i+1; 
+	}
+	arrCol.addItem(temp);
+	*/
+	
+}
+
 private function switchRound(dir:int):void {
 	saveRound();
 	

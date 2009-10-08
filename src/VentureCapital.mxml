@@ -52,12 +52,7 @@
 	<mx:ArrayCollection id="arrCol">
         <mx:source>
             <mx:Array>
-                <mx:Object col1="A.1" col2="A.2" col3="A.3" col4="A.4"/>
-                <mx:Object col1="B.1" col2="B.2" col3="B.3" col4="B.4"/>
-                <mx:Object col1="C.1" col2="C.2" col3="C.3" col4="C.4"/>
-                <mx:Object col1="D.1" col2="D.2" col3="D.3" col4="D.4"/>
-                <mx:Object col1="E.1" col2="E.2" col3="E.3" col4="E.4"/>
-                <mx:Object col1="F.1" col2="F.2" col3="F.3" col4="F.4"/>
+                
             </mx:Array>
         </mx:source>
     </mx:ArrayCollection>
