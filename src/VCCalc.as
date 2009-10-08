@@ -2,8 +2,8 @@
 // @author Jason Kruse, Kyle Powers
 import mx.controls.Alert;
 
-var seriesLetters:Array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-var curSeries:int = 0; 
+private var seriesLetters:Array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+private var curSeries:int = 0; 
 
 private function test():void {
 	/*this.seriesInputParent.height = 140;*/
