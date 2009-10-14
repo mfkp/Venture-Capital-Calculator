@@ -1,5 +1,5 @@
 // ActionScript file
-// @author Jason Kruse, Kyle Powers
+// @author Kyle Powers, Jason Kruse
 import mx.charts.chartClasses.StackedSeries;
 import mx.collections.ArrayCollection;
 
@@ -81,17 +81,23 @@ private function fillGrid():void{
 	var str:String; 
 	var temp:Object = new Object(); 
 	addDataGridColumn("col0", "Founders");
+	this.validateNow();
 	for(var x:int=1;x<= int(numRounds.text); x++){
 		addDataGridColumn("col" + x, "Round " + x);
+		this.validateNow();
 	}
 	addDataGridColumn("col" + (output_table.columns.length + 1), "Exit");
-	/*
-	for(var i:int=0;i<13;i++){
-		str = String("col"+Number(i+1)); 
-		temp[str] = i+1; 
+	this.validateNow();
+	
+	for(var i:int=1;i<output_table.columns.length - 1; i++) {
+		//str = String("col"+Number(i)); 
+		temp[String("col"+i)] = (int(toExit.text)/12) - rounds[i-1].yearsToExit;
 	}
 	arrCol.addItem(temp);
-	*/
+	for(var i:int=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = rounds[i-1].yearsToExit;
+	}
+	arrCol.addItem(temp);
 	
 }
 
@@ -127,8 +133,4 @@ private function addDataGridColumn(dataField:String, header:String):void {
     var cols:Array = output_table.columns;
     cols.push(dgc);
     output_table.columns = cols;
-}
-
-private function init():void {
-    addDataGridColumn("col" + (output_table.columns.length + 1), "Round" + (output_table.columns.length + 1));
 }

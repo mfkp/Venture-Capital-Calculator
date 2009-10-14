@@ -46,7 +46,9 @@
 			<mx:SetProperty target="{inputParent}" name="height" value="100%"/>
 			<mx:SetStyle target="{inputParent}" name="top" value="50"/>
 		</mx:State>
-		<mx:State name="Start"/>
+		<mx:State name="Start">
+			<mx:SetStyle target="{label1}" name="horizontalCenter" value="0"/>
+		</mx:State>
 	</mx:states>
 	
 	<mx:ArrayCollection id="arrCol">
@@ -57,7 +59,7 @@
         </mx:source>
     </mx:ArrayCollection>
 	
-	<mx:Label y="20" text="Venture Capital Method" horizontalCenter="-13" fontSize="20"/>
+	<mx:Label y="20" text="Venture Capital Method" horizontalCenter="-13" fontSize="20" id="label1"/>
 	<mx:VBox width="100%" x="20" y="59" id="inputParent">
 		<mx:HBox width="100%" id="hbox1">
 			<mx:VBox width="50%" height="100%" id="vbox1">
@@ -123,7 +125,6 @@
 		</mx:HBox>
 		<mx:ApplicationControlBar dock="true">
 		<mx:Button label="Calculate" id="calcbutton" click="calculate();"/>
-		<mx:Button label="Add column" click="init();" />
 		</mx:ApplicationControlBar>
 	</mx:VBox>	
 	
