@@ -1,6 +1,5 @@
 // ActionScript file
 // @author Kyle Powers, Jason Kruse
-import mx.charts.chartClasses.StackedSeries;
 import mx.collections.ArrayCollection;
 
 private var seriesLetters:Array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -13,6 +12,19 @@ private var rounds:Array = new Array();
 private var atExit:Object = new Array();
 private var objColl:ArrayCollection = new ArrayCollection();
 
+private function debug():void {
+	// fill out all text boxes
+	toExit.text = "60";
+	numRounds.text = "3";
+	numFounderShares.text = "1000000";
+	PERatio.text = "15";
+	earnings.text = "2500000";
+	// fill out series text boxes
+	series[0] = {monToInvestment: 0, investmentAmount: 1500000, targetROI: .5 };
+	series[1] = {monToInvestment: 24, investmentAmount: 1000000, targetROI: .4 };
+	series[2] = {monToInvestment: 48, investmentAmount: 1000000, targetROI: .25 };
+	calculate();
+}
 private function openRounds():void {
 	if(int(numRounds.text) > 0) {
 		if(int(numRounds.text) > 1) {
@@ -74,7 +86,7 @@ private function calculate():void {
 	founders.investmentValueAtExit = founders.sharesIssued * rounds[rounds.length-1].sharePrice;
 	currentState='Output';
 	fillGrid();
-	}
+}
 
 private function fillGrid():void{
 	

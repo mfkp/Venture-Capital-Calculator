@@ -48,6 +48,9 @@
 		</mx:State>
 		<mx:State name="Start">
 			<mx:SetStyle target="{label1}" name="horizontalCenter" value="0"/>
+			<mx:AddChild position="lastChild">
+				<mx:Button x="10" y="0" label="DEBUG: Fill/Calc" click="debug()"/>
+			</mx:AddChild>
 		</mx:State>
 	</mx:states>
 	
