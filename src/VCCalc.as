@@ -187,7 +187,6 @@ private function calculate(saveNewRound:Boolean=true):void {
 }
 
 private function fillGrid():void{
-	
 	var str:String; 
 	var i:int;
 	var base:NumberBase = new NumberBase();
@@ -221,12 +220,12 @@ private function fillGrid():void{
 	addRow();
 //new vc investment
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = base.formatThousands(String(Math.round(rounds[i-1].newInvestment)));
+		temp[String("col"+i)] = "$" + base.formatThousands(String(Math.round(rounds[i-1].newInvestment)));
 	}
 	addRow();
 //vc's required terminal value
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = base.formatThousands(String(Math.round(rounds[i-1].reqTerminalVal)));
+		temp[String("col"+i)] = "$" + base.formatThousands(String(Math.round(rounds[i-1].reqTerminalVal)));
 	}
 	addRow();
 //terminal % ownership
@@ -251,39 +250,39 @@ private function fillGrid():void{
 	temp[String("col"+ (output_table.columns.length))] = base.formatPrecision(String(100*(Number(String(atExit.initialOwnership)))),3) + "%";
 	addRow();
 //shares issued
-	temp[String("col0")] = int(numFounderShares.text);
+	temp[String("col0")] = base.formatThousands(String(Math.round(int(numFounderShares.text))));
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = rounds[i-1].sharesIssued;
+		temp[String("col"+i)] = base.formatThousands(String(Math.round(rounds[i-1].sharesIssued)));
 	}
-	temp[String("col"+ (output_table.columns.length))] = atExit.sharesIssued;
+	temp[String("col"+ (output_table.columns.length))] = base.formatThousands(String(Math.round(atExit.sharesIssued)));
 	addRow();
 //shares outstanding
-	temp[String("col0")] = String(founders.sharesOutstanding);
+	temp[String("col0")] = base.formatThousands(String(Math.round(founders.sharesOutstanding)));
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = String(rounds[i-1].sharesOutstanding);
+		temp[String("col"+i)] = base.formatThousands(String(Math.round(rounds[i-1].sharesOutstanding)));
 	}
-	temp[String("col"+ (output_table.columns.length))] = atExit.sharesOutstanding;
+	temp[String("col"+ (output_table.columns.length))] = base.formatThousands(String(Math.round(atExit.sharesOutstanding)));
 	addRow();
 //share price
-	temp[String("col0")] = String(founders.sharePrice);
+	temp[String("col0")] = "$" + base.formatPrecision(String(founders.sharePrice),3);
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = String(rounds[i-1].sharePrice);
+		temp[String("col"+i)] = "$" + base.formatPrecision(String(rounds[i-1].sharePrice),3);
 	}
-	temp[String("col"+ (output_table.columns.length))] = atExit.sharePrice;
+	temp[String("col"+ (output_table.columns.length))] = "$" + base.formatPrecision(String(atExit.sharePrice),3);
 	addRow();
 //firm valuation
-	temp[String("col0")] = String(founders.firmValuation);
+	temp[String("col0")] = "$" + base.formatThousands(String(Math.round(founders.firmValuation)));
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = String(rounds[i-1].firmValuation);
+		temp[String("col"+i)] = "$" + base.formatThousands(String(Math.round(rounds[i-1].firmValuation)));
 	}
-	temp[String("col"+ (output_table.columns.length))] = atExit.firmValuation;
+	temp[String("col"+ (output_table.columns.length))] = "$" + base.formatThousands(String(Math.round(atExit.firmValuation)));
 	addRow();
 //investment value at exit
-	temp[String("col0")] = founders.valueAtExit;
+	temp[String("col0")] = "$" + base.formatThousands(String(Math.round(founders.valueAtExit)));
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = rounds[i-1].valueAtExit;
+		temp[String("col"+i)] = "$" + base.formatThousands(String(Math.round(rounds[i-1].valueAtExit)));
 	}
-	temp[String("col"+ (output_table.columns.length))] = atExit.valueAtExit;
+	temp[String("col"+ (output_table.columns.length))] = "$" + base.formatThousands(String(Math.round(atExit.valueAtExit)));
 	addRow();
 }
 

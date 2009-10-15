@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"  borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start">
-	<!-- preloader="preload.CustomPreloader" -->
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" preloader="preload.CustomPreloader" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start">
+	<!--  -->
 	<mx:Script>
         <![CDATA[
 
@@ -23,7 +23,7 @@
 			<mx:RemoveChild target="{managementSharesParent}"/>
 			<mx:RemoveChild target="{seriesInputParent}"/>
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
-				<mx:AdvancedDataGrid id="output_table" designViewDataType="flat" width="100%" height="100%" dataProvider="{arrCol}">
+				<mx:AdvancedDataGrid id="output_table" designViewDataType="flat" width="100%" height="100%" dataProvider="{arrCol}" sortableColumns="false">
 					<mx:columns>
 						<mx:AdvancedDataGridColumn/>
 					</mx:columns>
@@ -42,27 +42,42 @@
 				</mx:DataGrid>
 			</mx:AddChild>
 			<mx:SetProperty target="{hbox3}" name="height" value="100%"/>
-			<mx:SetProperty target="{inputParent}" name="height" value="100%"/>
 			<mx:SetStyle target="{inputParent}" name="top" value="50"/>
 			<mx:SetProperty name="width" value="800"/>
 			<mx:AddChild relativeTo="{applicationcontrolbar1}" position="lastChild">
-				<mx:Button label="Show Graph" id="backtotablebutton" click="showGraphs();"/>
+				<mx:Button label="Show Graphs" id="backtotablebutton" click="showGraphs();" fontSize="18"/>
 			</mx:AddChild>
+			<mx:SetProperty target="{inputParent}" name="height" value="399"/>
+			<mx:SetProperty name="height" value="480"/>
+			<mx:RemoveChild target="{demobutton}"/>
 		</mx:State>
 		<mx:State name="Start">
 			<mx:SetProperty target="{inputParent}" name="x"/>
 			<mx:SetStyle target="{inputParent}" name="horizontalCenter" value="0"/>
 			<mx:SetProperty target="{inputParent}" name="y"/>
-			<mx:SetProperty target="{inputParent}" name="width" value="90%"/>
 			<mx:SetStyle target="{inputParent}" name="top" value="59"/>
+			<mx:SetStyle target="{inputParent}" name="bottom" value="20"/>
+			<mx:AddChild relativeTo="{applicationcontrolbar1}" position="lastChild">
+				<mx:HBox width="100%" id="hbox4">
+				</mx:HBox>
+			</mx:AddChild>
+			<mx:RemoveChild target="{demobutton}"/>
+			<mx:AddChild relativeTo="{hbox4}" position="lastChild" target="{demobutton}"/>
+			<mx:RemoveChild target="{calcbutton}"/>
+			<mx:AddChild relativeTo="{hbox4}" position="lastChild" target="{calcbutton}"/>
+			<mx:SetProperty target="{calcbutton}" name="width" value="50%"/>
+			<mx:SetProperty target="{demobutton}" name="width" value="50%"/>
+			<mx:SetProperty target="{vbox4}" name="height"/>
+			<mx:SetProperty target="{hbox1}" name="height" value="55"/>
+			<mx:SetStyle target="{vbox1}" name="verticalAlign" value="top"/>
 		</mx:State>
 		<mx:State name="Graphs" basedOn="Output">
 			<mx:RemoveChild target="{output_table}"/>
 			<mx:RemoveChild target="{datagrid1}"/>
 			<mx:SetProperty target="{backtotablebutton}" name="label" value="Back to Table"/>
-			<mx:SetEventHandler target="{backtotablebutton}" name="click" handler="currentState='Output';this.height=451;this.width=800;"/>
+			<mx:SetEventHandler target="{backtotablebutton}" name="click" handler="currentState='Output';this.height=480;this.width=800;"/>
 			<mx:SetProperty target="{calcbutton}" name="label" value="Home"/>
-			<mx:SetProperty name="height" value="600"/>
+			<mx:SetProperty name="height" value="480"/>
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
 				<mx:LineChart id="roundGraph" dataProvider="{rounds}" width="292" height="301">
 					<mx:horizontalAxis>
@@ -100,6 +115,12 @@
 					<mx:Label x="10" y="40" id="pieSeriesLabel"/>
 				</mx:Canvas>
 			</mx:AddChild>
+			<mx:SetProperty target="{inputParent}" name="height"/>
+			<mx:SetProperty target="{hbox3}" name="height" value="350"/>
+			<mx:SetStyle target="{inputParent}" name="bottom" value="156"/>
+			<mx:SetProperty name="width" value="950"/>
+			<mx:SetStyle target="{hbox3}" name="verticalAlign" value="middle"/>
+			<mx:SetStyle name="verticalAlign" value="middle"/>
 		</mx:State>
 	</mx:states>
 	
@@ -112,13 +133,13 @@
     </mx:ArrayCollection>
 	
 	<mx:Label y="20" text="Venture Capital Method" horizontalCenter="0" fontSize="20" id="label1"/>
-	<mx:VBox width="100%" x="20" y="59" id="inputParent">
-		<mx:HBox width="100%" id="hbox1">
+	<mx:VBox y="59" id="inputParent" right="20" left="20">
+		<mx:HBox width="100%" height="100%" id="hbox1">
 			<mx:VBox width="50%" height="100%" id="vbox1">
 				<mx:Label text="Months to exit" />
 				<mx:Label text="Investment rounds" /> 
 			</mx:VBox>
-			<mx:VBox width="50%" height="100%">
+			<mx:VBox width="50%" height="100%" id="vbox4">
 				<mx:TextInput id="toExit" tabIndex="1"/>
 				<mx:TextInput id="numRounds" change="openRounds()" tabIndex="2"/>
 			</mx:VBox>
@@ -175,9 +196,9 @@
 				<mx:TextInput id="earnings" tabIndex="11" />
 			</mx:VBox>
 		</mx:HBox>
-		<mx:ApplicationControlBar dock="true" id="applicationcontrolbar1">
-		<mx:Button label="Calculate" id="calcbutton" click="calculate();"/>
-		<mx:Button x="10" y="0" label="DEBUG: Fill/Calc" click="debug()"/>
+		<mx:ApplicationControlBar dock="true" id="applicationcontrolbar1" width="100%">
+		<mx:Button label="Calculate" id="calcbutton" click="calculate();" fillAlphas="[0.6, 1.0, 0.73, 0.73]" fillColors="[#4FE55D, #4FE55D]" themeColor="#FCFF00" fontSize="18"/>
+		<mx:Button label="Demo" click="debug()" id="demobutton" fontSize="18"/>
 		</mx:ApplicationControlBar>
 	</mx:VBox>	
 	
