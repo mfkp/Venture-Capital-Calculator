@@ -51,6 +51,7 @@
 			<mx:AddChild position="lastChild">
 				<mx:Button x="10" y="0" label="DEBUG: Fill/Calc" click="debug()"/>
 			</mx:AddChild>
+			<mx:SetProperty name="width" value="722"/>
 		</mx:State>
 	</mx:states>
 	
