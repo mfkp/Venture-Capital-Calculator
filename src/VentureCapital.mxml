@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" preloader="preload.CustomPreloader" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start">
+	<!--  -->
 	<mx:Script>
         <![CDATA[
 
@@ -44,7 +45,7 @@
 			<mx:SetStyle target="{inputParent}" name="top" value="50"/>
 			<mx:SetProperty name="width" value="800"/>
 			<mx:AddChild relativeTo="{applicationcontrolbar1}" position="lastChild">
-				<mx:Button label="Show Graph" id="backtotablebutton" click="currentState='Graphs';"/>
+				<mx:Button label="Show Graph" id="backtotablebutton" click="showGraphs();"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Start">
@@ -61,6 +62,20 @@
 			<mx:SetEventHandler target="{backtotablebutton}" name="click" handler="currentState='Output';this.height=451;this.width=800;"/>
 			<mx:SetProperty target="{calcbutton}" name="label" value="Home"/>
 			<mx:SetProperty name="height" value="600"/>
+			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
+				<mx:LineChart id="roundGraph" dataProvider="{rounds}">
+					<mx:horizontalAxis>
+		                <mx:CategoryAxis categoryField="monToInvestment"/>
+		            </mx:horizontalAxis>
+					<mx:series>
+		                <mx:LineSeries yField="firmValuation" form="curve" displayName="Firm Valuation" />
+		                <mx:LineSeries yField="totalInvestment" form="step" displayName="Investment"/>
+  		            </mx:series>
+				</mx:LineChart>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
+				<mx:Legend dataProvider="{roundGraph}"/>
+			</mx:AddChild>
 		</mx:State>
 	</mx:states>
 	

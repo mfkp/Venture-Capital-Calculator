@@ -2,8 +2,6 @@
 // @author Kyle Powers, Jason Kruse
 import mx.collections.ArrayCollection;
 import mx.formatters.NumberBase;
-import mx.formatters.NumberBaseRoundType;
-import mx.controls.Alert;
 
 private var seriesLetters:Array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 private var curSeries:int = 0; 
@@ -11,12 +9,20 @@ private var curSeries:int = 0;
 private var series:Array = new Array();
 //outputs
 private var founders:Object = new Object();
-private var rounds:Array = new Array();
+[Bindable]private var rounds:Array = new Array();
 private var atExit:Object = new Object();
 private var objColl:ArrayCollection = new ArrayCollection();
 private var temp:Object = new Object(); 
 private var incManagementPool:Boolean =false;
 
+private function showGraphs():void {
+	currentState='Graphs';
+	if(rounds.length == series.length) {
+		rounds[rounds.length] = new Object();
+		rounds[rounds.length-1].totalInvestment = rounds[rounds.length-2].totalInvestment;
+		rounds[rounds.length-1].firmValuation = atExit.firmValuation;
+	}
+}
 private function debug():void {
 	// fill out all text boxes
 	toExit.text = "60";
@@ -69,21 +75,18 @@ private function calculate(saveNewRound:Boolean=true):void {
 	var sharesOutstanding:int;
 	var totalVCOwnership:Number = 0;
 	var laterInvestment:Number;
+	var totalInvestment:int = 0;
 	for(x=0;x<series.length;x++) {
 		rounds[x] = new Object();
+		rounds[x].monToInvestment = series[x].monToInvestment;
 		rounds[x].newInvestment = series[x].investmentAmount;
+		rounds[x].totalInvestment = totalInvestment + rounds[x].newInvestment;
+		totalInvestment += rounds[x].newInvestment;
 		rounds[x].yearsToExit = (int(toExit.text) /12) - (series[x].monToInvestment / 12);
 		rounds[x].reqROI = Number(series[x].targetROI);
 		rounds[x].reqTerminalVal = rounds[x].newInvestment * Math.pow(1 + rounds[x].reqROI,rounds[x].yearsToExit);
 		rounds[x].terminalOwnership = rounds[x].reqTerminalVal / atExit.firmValuation;
 		totalVCOwnership += rounds[x].terminalOwnership;
-		
-		//rounds[x].initialOwnership = rounds[x].newInvestment / ( int(earnings.text) * int(PERatio.text));
-		
-		 
-		//rounds[x].sharesIssued = int((rounds[x].initialOwnership * int(numFounderShares.text)) / (1 - rounds[x].initialOwnership));
-		
-		
 	}
 	
 	// run through again for ownership percentages
@@ -138,9 +141,11 @@ private function calculate(saveNewRound:Boolean=true):void {
 		atExit.valueAtExit = "";
 	}
 	founders.terminalOwnership = Number(1 - totalVCOwnership);
-	for(y=0;y<series.length-1;y++) {
-		rounds[y].investmentValueAtExit = rounds[y].sharesIssued * rounds[rounds.length-1].sharePrice;
+	for(y=0;y<series.length;y++) {
+		rounds[y].valueAtExit = rounds[y].sharesIssued * atExit.sharePrice;
+		trace(y + ")" + rounds[y].valueAtExit);
 	}
+	
 	founders.valueAtExit = founders.sharesIssued * atExit.sharePrice;
 	
 	currentState='Output';
@@ -148,7 +153,6 @@ private function calculate(saveNewRound:Boolean=true):void {
 }
 
 private function fillGrid():void{
-	
 	var str:String; 
 	var i:int;
 	var base:NumberBase = new NumberBase();

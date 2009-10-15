@@ -9,12 +9,12 @@ package preload
     public class WelcomeScreen extends Loader
     {
         
-        [ Embed(source="welcome.gif", mimeType="application/octet-stream") ]
+        [ Embed(source="welcome.png", mimeType="application/octet-stream") ]
         public var WelcomeGif:Class;
         public var timer:Timer;
-        private var fadeInRate:Number  = .01;
-        private var fadeOutRate:Number = .02;
-        private var timeAutoClose:int = 500;
+        private var fadeInRate:Number  = .02;
+        private var fadeOutRate:Number = .01;
+        private var timeAutoClose:int = 300;
         public var ready:Boolean = false; 
         
         public function WelcomeScreen()
