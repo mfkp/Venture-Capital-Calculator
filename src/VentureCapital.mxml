@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" preloader="preload.CustomPreloader" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start">
 	<mx:Script>
         <![CDATA[
 
@@ -21,7 +21,7 @@
 			<mx:RemoveChild target="{managementSharesParent}"/>
 			<mx:RemoveChild target="{seriesInputParent}"/>
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
-				<mx:AdvancedDataGrid id="output_table" designViewDataType="flat" width="100%" height="100%" dataProvider="{arrCol}">
+				<mx:AdvancedDataGrid id="output_table" designViewDataType="flat" width="100%" height="100%" dataProvider="{arrCol}" sortableColumns="false">
 					<mx:columns>
 						<mx:AdvancedDataGridColumn/>
 					</mx:columns>
