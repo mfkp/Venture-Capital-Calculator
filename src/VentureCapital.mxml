@@ -3,6 +3,7 @@
 	<!--  -->
 	<mx:Script>
         <![CDATA[
+        	import mx.controls.Alert;
 
             [Bindable]
             public var labels:Array = ["Years from Initiation", "Years to Exit", "VC's Required ROI", "New VC Investment", 
@@ -153,17 +154,17 @@
 			</mx:VBox>
 		</mx:HBox>
 		<mx:VBox width="100%" id="seriesInputParent" height="0">
-			<mx:Label text="Series A" id="serieslbl" />
+			<mx:Label text="Round 1" id="serieslbl" />
 			<mx:HBox width="100%">
 				<mx:VBox width="50%" height="100%">
 					<mx:Label text="Months to investment"/>
 					<mx:Label text="Investment amount"/>
-					<mx:Label text="Target ROI"/>
+					<mx:Label text="Target ROI (decimal)"/>
 				</mx:VBox>
 				<mx:VBox width="50%" height="100%">
-					<mx:TextInput id="monToInvestment" tabIndex="3"/>
-					<mx:TextInput id="investmentAmount" tabIndex="4"/>
-					<mx:TextInput id="targetROI" tabIndex="5"/>
+					<mx:TextInput id="monToInvestment" tabIndex="3" focusOut="validatePos(this.monToInvestment)"/>
+					<mx:TextInput id="investmentAmount" tabIndex="4" focusOut="validatePos(this.investmentAmount)"/>
+					<mx:TextInput id="targetROI" tabIndex="5" focusOut="validatePercent(this.targetROI)"/>
 				</mx:VBox>
 			</mx:HBox>
 			<mx:Canvas width="100%">
