@@ -40,7 +40,7 @@ private function showGraphs():void {
 	pieCurSeries = 0;
 	piePrev.enabled = false;
 	pieNext.enabled = true;
-	pieSeriesLabel.text = "Round " + (pieCurSeries + 1);
+	pieSeriesLabel.text = "Founders";
 	roundsPie.removeAll();	
 	roundsPie.addItem( { round: 'Founders', sharesIssued: 1000000 });
 
@@ -74,10 +74,13 @@ private function scrollPie(dir:int):void {
 		roundsPie.removeItemAt(roundsPie.length -1);
 		
 	}
+	if(pieCurSeries == 0) {
+		pieSeriesLabel.text = "Founders";
+	}
 	if(pieCurSeries >= rounds.length) {
 		pieSeriesLabel.text = "Exit";
 	} else {	
-		this.pieSeriesLabel.text = "Series " + (pieCurSeries+1);
+		this.pieSeriesLabel.text = "Round " + (pieCurSeries);
 	}
 	
 }

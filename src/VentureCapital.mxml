@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" preloader="preload.CustomPreloader" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start" viewSourceURL="srcview/index.html">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" preloader="preload.CustomPreloader" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start">
 	<!--  -->
 	<mx:Script>
         <![CDATA[
@@ -118,7 +118,7 @@
 			<mx:AddChild position="lastChild">
 				<mx:HBox width="200" horizontalAlign="center" y="376" x="520">
 					<mx:Button label="&lt;" id="piePrev" click="scrollPie(-1)"/>
-					<mx:Label id="pieSeriesLabel"/>
+					<mx:Label id="pieSeriesLabel" text="Founders"/>
 					<mx:Button label="&gt;" id="pieNext" click="scrollPie(1)"/>
 				</mx:HBox>
 			</mx:AddChild>
