@@ -1,6 +1,7 @@
 // ActionScript file
 // @author Kyle Powers, Jason Kruse
 import mx.collections.ArrayCollection;
+import mx.controls.Alert;
 import mx.formatters.NumberBase;
 
 private var seriesLetters:Array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -20,6 +21,7 @@ private function showGraphs():void {
 	currentState='Graphs';
 	pieCurSeries = 0;
 	piePrev.enabled = false;
+	pieNext.enabled = true;
 	pieSeriesLabel.text = "Series " + (pieCurSeries + 1);
 	roundsPie.removeAll();	
 	roundsPie.addItem( { round: 'Founders', sharesIssued: 1000000 });
@@ -40,11 +42,11 @@ private function scrollPie(dir:int):void {
 		var title:String;
 		if(pieCurSeries >= rounds.length) {
 			pieNext.enabled = false;
-			title = "Exit";
+			roundsPie.addItem(new PieChartItem("Exit",atExit.sharesIssued));
 		} else {
-			title = "Round " + pieCurSeries;
+			roundsPie.addItem(new PieChartItem(title = "Round " + pieCurSeries,rounds[pieCurSeries-1].sharesIssued));
 		}
-		roundsPie.addItem(new PieChartItem(title,rounds[pieCurSeries-1].sharesIssued));	
+			
 	} else {
 		// remove last item form array collection
 		pieNext.enabled = true;
@@ -53,6 +55,11 @@ private function scrollPie(dir:int):void {
 		}
 		roundsPie.removeItemAt(roundsPie.length -1);
 		
+	}
+	if(pieCurSeries >= rounds.length) {
+		pieSeriesLabel.text = "Exit";
+	} else {	
+		this.pieSeriesLabel.text = "Series " + (pieCurSeries+1);
 	}
 	
 }
@@ -63,7 +70,8 @@ private function debug():void {
 	numFounderShares.text = "1000000";
 	PERatio.text = "15";
 	earnings.text = "2500000";
-	managementPercent.text = "15";
+	//managementPercent.text = "15";
+	//this.incManagementPool = true;
 	// fill out series text boxes
 	series[0] = {monToInvestment: 0, investmentAmount: 1500000, targetROI: .5 };
 	series[1] = {monToInvestment: 24, investmentAmount: 1000000, targetROI: .4 };
@@ -156,10 +164,11 @@ private function calculate(saveNewRound:Boolean=true):void {
 	sharesOutstanding += rounds[series.length-1].sharesIssued
 	if(this.incManagementPool) {
 		totalVCOwnership += Number(managementPercent.text) / 100;
-		atExit.retention = Number(managementPercent.text) / 100;
+		atExit.retention = 1;
 		atExit.initialOwnership = Number(managementPercent.text) / 100;
 		atExit.sharesIssued = (atExit.initialOwnership * sharesOutstanding) / ( 1 - atExit.initialOwnership);;
-		atExit.sharesOutstanding = rounds[rounds.length-1].shareOutstanding + atExit.sharesIssued;
+		//Alert.show(sharesOutstanding + " | " + atExit.sharesIssued);
+		atExit.sharesOutstanding = sharesOutstanding + atExit.sharesIssued;
 	} else {
 		atExit.retention = "";
 		atExit.initialOwnership = "";
@@ -233,13 +242,14 @@ private function fillGrid():void{
 	for(i=1;i<output_table.columns.length - 1; i++) {
 		temp[String("col"+i)] = base.formatPrecision(String(100*(Number(rounds[i-1].terminalOwnership))),3) + "%";
 	}
-	temp[String("col"+ (output_table.columns.length))] = base.formatPrecision(String(100*(Number(managementPercent.text))),3) + "%";
+	temp[String("col"+ (output_table.columns.length))] = base.formatPrecision(String(100*(Number(managementPercent.text)/100)),3) + "%";
 	addRow();
 //retention %
 	temp[String("col0")] = base.formatPrecision(String(100*(Number(String(founders.terminalOwnership)))),3) + "%";
 	for(i=1;i<output_table.columns.length - 1; i++) {
 		temp[String("col"+i)] = base.formatPrecision(String(100*(Number(String(rounds[i-1].retention)))),3) + "%";
 	}
+	//mx.controls.Alert.show(atExit.retention);
 	temp[String("col"+ (output_table.columns.length))] = base.formatPrecision(String(100*(Number(String(atExit.retention)))),3) + "%";
 	addRow();
 //initial % ownership
