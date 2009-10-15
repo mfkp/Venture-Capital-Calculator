@@ -3,6 +3,9 @@
 import mx.collections.ArrayCollection;
 import mx.controls.TextInput;
 import mx.formatters.NumberBase;
+import mx.core.Application;
+import mx.core.WindowedApplication;
+import adobe.utils.ProductManager;
 
 private var seriesLetters:Array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 private var curSeries:int = 0; 
@@ -376,4 +379,12 @@ private function addDataGridColumn(dataField:String, header:String):void {
     var cols:Array = output_table.columns;
     cols.push(dgc);
     output_table.columns = cols;
+}
+
+public function restart():void
+{
+   var app:WindowedApplication = WindowedApplication(Application.application);
+   var mgr:ProductManager = new ProductManager("airappinstaller");
+   mgr.launch("-launch " + app.nativeApplication.applicationID + " " + app.nativeApplication.publisherID);
+   app.close();
 }
