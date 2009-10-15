@@ -63,6 +63,7 @@ private function debug():void {
 	numFounderShares.text = "1000000";
 	PERatio.text = "15";
 	earnings.text = "2500000";
+	managementPercent.text = "15";
 	// fill out series text boxes
 	series[0] = {monToInvestment: 0, investmentAmount: 1500000, targetROI: .5 };
 	series[1] = {monToInvestment: 24, investmentAmount: 1000000, targetROI: .4 };
