@@ -1,7 +1,7 @@
 // ActionScript file
 // @author Kyle Powers, Jason Kruse
 import mx.collections.ArrayCollection;
-import mx.controls.Alert;
+import mx.controls.TextInput;
 import mx.formatters.NumberBase;
 
 private var seriesLetters:Array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -17,6 +17,21 @@ private var objColl:ArrayCollection = new ArrayCollection();
 private var temp:Object = new Object(); 
 private var incManagementPool:Boolean =false;
 private var pieCurSeries:int = 0;
+
+private function validatePercent(target:TextInput):void {
+	if(Number(target.text) < 0 || Number(target.text) > 1 ) {
+		target.text = "";
+		Alert.show("Please enter a value between 0 and 1");	
+	}
+}
+private function validatePos(target:TextInput):void {
+	if(Number(target.text) < 0) {
+		target.text = "";
+		Alert.show("Please enter a non-negative number");	
+	}
+}
+
+
 private function showGraphs():void {
 	currentState='Graphs';
 	pieCurSeries = 0;
@@ -91,9 +106,11 @@ private function toggleManPool(open:Boolean):void {
 	if(open) {
 		incManagementPool = true;
 		this.managementSharesParent.height = 30;
+		this.height += 30;
 	} else {
 		incManagementPool = false;
 		this.managementSharesParent.height = 0;
+		this.height -= 30;
 	}
 }
 private function saveRound():void {
@@ -103,7 +120,25 @@ private function test():void {
 	//trace(series.length, series[curSeries-1].monToInvestment);
 	
 }
+private function validate():Boolean {
+	if(toExit.text == "" || numRounds.text == "" || numFounderShares.text == "" || PERatio.text == "" || earnings.text == "") {
+		Alert.show("Please fill out all the inputs");
+		return false;	
+	}
+	if(Number(toExit.text) < 0 || Number(numRounds.text) < 1 || Number(numFounderShares.text) < 0 || Number(PERatio.text) < 0 || Number(earnings.text) < 0) {
+		Alert.show("There is an error in your inputs. Please try again");
+		return false;	
+	} 
+	
+	return true;
+}
 private function calculate(saveNewRound:Boolean=true):void {
+	// validate fields
+	if(!validate()) {
+		return;
+	}	
+	 
+	
 	var x:int;
 	var y:int;
 	if(saveNewRound)
@@ -330,7 +365,7 @@ private function switchRound(dir:int):void {
 		
 	}
 	
-	serieslbl.text = "Series " + seriesLetters[curSeries];
+	serieslbl.text = "Round " + (curSeries+1);
 }
 
 
