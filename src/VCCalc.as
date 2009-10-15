@@ -9,9 +9,10 @@ private var series:Array = new Array();
 //outputs
 private var founders:Object = new Object();
 private var rounds:Array = new Array();
-private var atExit:Object = new Array();
+private var atExit:Object = new Object();
 private var objColl:ArrayCollection = new ArrayCollection();
 private var temp:Object = new Object(); 
+private var incManagementPool:Boolean =false;
 
 private function debug():void {
 	// fill out all text boxes
@@ -24,7 +25,7 @@ private function debug():void {
 	series[0] = {monToInvestment: 0, investmentAmount: 1500000, targetROI: .5 };
 	series[1] = {monToInvestment: 24, investmentAmount: 1000000, targetROI: .4 };
 	series[2] = {monToInvestment: 48, investmentAmount: 1000000, targetROI: .25 };
-	calculate();
+	calculate(false);
 }
 private function openRounds():void {
 	if(int(numRounds.text) > 0) {
@@ -37,8 +38,10 @@ private function openRounds():void {
 }
 private function toggleManPool(open:Boolean):void {
 	if(open) {
+		incManagementPool = true;
 		this.managementSharesParent.height = 30;
 	} else {
+		incManagementPool = false;
 		this.managementSharesParent.height = 0;
 	}
 }
@@ -49,19 +52,25 @@ private function test():void {
 	//trace(series.length, series[curSeries-1].monToInvestment);
 	
 }
-private function calculate():void {
-	saveRound();
+private function calculate(saveNewRound:Boolean=true):void {
+	if(saveNewRound)
+		saveRound();
+	atExit.firmValuation = int(PERatio.text) * int(earnings.text);
+	
 	trace(series[x].investmentAmount);
 	founders.sharesIssued = int(numFounderShares.text);
 	founders.sharesOutstanding = int(numFounderShares.text);
 	founders.initialOwnership = 100;
 	var sharesOutstanding:int;
+	var totalVCOwnership:Number = 0;
 	for(var x:int=0;x<series.length;x++) {
 		rounds[x] = new Object();
 		rounds[x].newInvestment = series[x].investmentAmount;
 		rounds[x].yearsToExit = (int(toExit.text) /12) - (series[x].monToInvestment / 12);
-		rounds[x].reqROI = series[x].targetROI;
+		rounds[x].reqROI = Number(series[x].targetROI);
 		rounds[x].reqTerminalVal = rounds[x].newInvestment * Math.pow(1 + rounds[x].reqROI,rounds[x].yearsToExit);
+		rounds[x].terminalOwnership = rounds[x].reqTerminalVal / atExit.firmValuation;
+		totalVCOwnership+= rounds[x].terminalOwnership;
 		rounds[x].initialOwnership = rounds[x].newInvestment / ( int(earnings.text) * int(PERatio.text));
 		if(x==0) {
 			sharesOutstanding = founders.sharesOutstanding; 	
@@ -81,6 +90,11 @@ private function calculate():void {
 			founders.firmValuation = founders.sharesOutstanding * founders.sharePrice; 	
 		}
 	}
+	mx.controls.Alert.show(totalVCOwnership + "");
+	if(this.incManagementPool) {
+		totalVCOwnership += Number(managementPercent.text) / 100;
+	}
+	founders.terminalOwnership = Number(1 - totalVCOwnership);
 	for(var y:int=0;y<series.length-1;y++) {
 		rounds[y].investmentValueAtExit = rounds[y].sharesIssued * rounds[rounds.length-1].sharePrice;
 	}
@@ -133,11 +147,11 @@ private function fillGrid():void{
 	addRow();
 //terminal % ownership
 //WRONG
-	temp[String("col0")] = "99";
+	temp[String("col0")] = founders.terminalOwnership;
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = "99";
+		temp[String("col"+i)] = rounds[i-1].terminalOwnership;
 	}
-	temp[String("col"+ (output_table.columns.length))] = "99";
+	temp[String("col"+ (output_table.columns.length))] = managementPercent.text;
 	addRow();
 //retention %
 //WRONG
@@ -185,7 +199,7 @@ private function fillGrid():void{
 	for(i=1;i<output_table.columns.length - 1; i++) {
 		temp[String("col"+i)] = String(rounds[i-1].firmValuation);
 	}
-	temp[String("col"+ (output_table.columns.length))] = "99";
+	temp[String("col"+ (output_table.columns.length))] = atExit.firmValuation;
 	addRow();
 //investment value at exit
 //WRONG
