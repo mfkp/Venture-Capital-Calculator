@@ -1,6 +1,7 @@
 // ActionScript file
 // @author Kyle Powers, Jason Kruse
 import mx.collections.ArrayCollection;
+import mx.controls.Alert;
 
 private var seriesLetters:Array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 private var curSeries:int = 0; 
@@ -73,24 +74,12 @@ private function calculate(saveNewRound:Boolean=true):void {
 		rounds[x].terminalOwnership = rounds[x].reqTerminalVal / atExit.firmValuation;
 		totalVCOwnership += rounds[x].terminalOwnership;
 		
-		rounds[x].initialOwnership = rounds[x].newInvestment / ( int(earnings.text) * int(PERatio.text));
-		if(x==0) {
-			sharesOutstanding = founders.sharesOutstanding; 	
-		} else {
-			sharesOutstanding = rounds[x-1].sharesOutstanding;
-		}
-		rounds[x].sharesIssued = (rounds[x].initialOwnership * sharesOutstanding) / ( 1 - rounds[x].initialOwnership);
-		rounds[x].sharesOutstanding = sharesOutstanding + rounds[x].sharesIssued;
-		rounds[x].sharePrice = rounds[x].newInvestment / rounds[x].sharesIssued;
-		rounds[x].firmValuation = rounds[x].sharesOutstanding * rounds[x].sharePrice;
-		 
-		 
+		//rounds[x].initialOwnership = rounds[x].newInvestment / ( int(earnings.text) * int(PERatio.text));
 		
-		if(x==0) {
-			// first run through, figure out some more founders info now that we have an initial investment
-			founders.sharePrice = rounds[0].sharePrice;
-			founders.firmValuation = founders.sharesOutstanding * founders.sharePrice; 	
-		}
+		 
+		//rounds[x].sharesIssued = int((rounds[x].initialOwnership * int(numFounderShares.text)) / (1 - rounds[x].initialOwnership));
+		
+		
 	}
 	
 	// run through again for ownership percentages
@@ -104,21 +93,53 @@ private function calculate(saveNewRound:Boolean=true):void {
 		}
 		rounds[x].retention = 1 - laterInvestment;
 		rounds[x].initialOwnership = rounds[x].terminalOwnership / rounds[x].retention;
+		
+		if(x==0) {
+			sharesOutstanding = founders.sharesOutstanding;
+			//mx.controls.Alert.show(rounds[x].initialOwnership + " | " + sharesOutstanding); 	
+		} else {
+			sharesOutstanding = rounds[x-1].sharesOutstanding;
+		}
+		
+		rounds[x].sharesIssued = (rounds[x].initialOwnership * sharesOutstanding) / ( 1 - rounds[x].initialOwnership);
+		rounds[x].sharesOutstanding = sharesOutstanding + rounds[x].sharesIssued;
+		rounds[x].sharePrice = rounds[x].newInvestment / rounds[x].sharesIssued;
+		rounds[x].firmValuation = rounds[x].sharesOutstanding * rounds[x].sharePrice;
+		  		
+		if(x==0) {
+			// first run through, figure out some more founders info now that we have an initial investment
+			founders.sharePrice = rounds[0].sharePrice;
+			founders.firmValuation = founders.sharesOutstanding * founders.sharePrice; 	
+		}
 	}
-	
+	sharesOutstanding += rounds[series.length-1].sharesIssued
 	if(this.incManagementPool) {
 		totalVCOwnership += Number(managementPercent.text) / 100;
 		atExit.retention = Number(managementPercent.text) / 100;
 		atExit.initialOwnership = Number(managementPercent.text) / 100;
+		atExit.sharesIssued = (atExit.initialOwnership * sharesOutstanding) / ( 1 - atExit.initialOwnership);;
+		atExit.sharesOutstanding = rounds[rounds.length-1].shareOutstanding + atExit.sharesIssued;
 	} else {
 		atExit.retention = "";
 		atExit.initialOwnership = "";
+		atExit.sharesIssued = "";
+		atExit.sharesOutstanding = sharesOutstanding;
+	}
+	
+	
+	atExit.sharePrice = atExit.firmValuation / atExit.sharesOutstanding;
+	if(this.incManagementPool) {
+		atExit.valueAtExit = atExit.sharesIssued * atExit.sharePrice;
+	} else {
+		atExit.valueAtExit = "";
 	}
 	founders.terminalOwnership = Number(1 - totalVCOwnership);
-	for(var y:int=0;y<series.length-1;y++) {
-		rounds[y].investmentValueAtExit = rounds[y].sharesIssued * rounds[rounds.length-1].sharePrice;
+		
+	for(var y:int=0;y<series.length;y++) {
+		rounds[y].valueAtExit = rounds[y].sharesIssued * atExit.sharePrice;
 	}
-	founders.investmentValueAtExit = founders.sharesIssued * rounds[rounds.length-1].sharePrice;
+	founders.valueAtExit = founders.sharesIssued * atExit.sharePrice;
+	
 	currentState='Output';
 	fillGrid();
 }
@@ -180,7 +201,6 @@ private function fillGrid():void{
 	temp[String("col"+ (output_table.columns.length))] = atExit.retention;
 	addRow();
 //initial % ownership
-//WRONG
 	temp[String("col0")] = 1;
 	for(i=1;i<output_table.columns.length - 1; i++) {
 		temp[String("col"+i)] = rounds[i-1].initialOwnership;
@@ -188,31 +208,27 @@ private function fillGrid():void{
 	temp[String("col"+ (output_table.columns.length))] = atExit.initialOwnership;
 	addRow();
 //shares issued
-//WRONG
-	temp[String("col0")] = String(founders.sharesIssued);
+	temp[String("col0")] = int(numFounderShares.text);
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = String(rounds[i-1].sharesIssued);
+		temp[String("col"+i)] = rounds[i-1].sharesIssued;
 	}
-	temp[String("col"+ (output_table.columns.length))] = "99";
+	temp[String("col"+ (output_table.columns.length))] = atExit.sharesIssued;
 	addRow();
 //shares outstanding
-//WRONG
 	temp[String("col0")] = String(founders.sharesOutstanding);
 	for(i=1;i<output_table.columns.length - 1; i++) {
 		temp[String("col"+i)] = String(rounds[i-1].sharesOutstanding);
 	}
-	temp[String("col"+ (output_table.columns.length))] = "99";
+	temp[String("col"+ (output_table.columns.length))] = atExit.sharesOutstanding;
 	addRow();
 //share price
-//WRONG
 	temp[String("col0")] = String(founders.sharePrice);
 	for(i=1;i<output_table.columns.length - 1; i++) {
 		temp[String("col"+i)] = String(rounds[i-1].sharePrice);
 	}
-	temp[String("col"+ (output_table.columns.length))] = "99";
+	temp[String("col"+ (output_table.columns.length))] = atExit.sharePrice;
 	addRow();
 //firm valuation
-//WRONG (round 3 is right)
 	temp[String("col0")] = String(founders.firmValuation);
 	for(i=1;i<output_table.columns.length - 1; i++) {
 		temp[String("col"+i)] = String(rounds[i-1].firmValuation);
@@ -220,12 +236,11 @@ private function fillGrid():void{
 	temp[String("col"+ (output_table.columns.length))] = atExit.firmValuation;
 	addRow();
 //investment value at exit
-//WRONG
-	temp[String("col0")] = String(founders.investmentValueAtExit);
+	temp[String("col0")] = founders.valueAtExit;
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = String(rounds[i-1].investmentValueAtExit);
+		temp[String("col"+i)] = rounds[i-1].valueAtExit;
 	}
-	temp[String("col"+ (output_table.columns.length))] = "99";
+	temp[String("col"+ (output_table.columns.length))] = atExit.valueAtExit;
 	addRow();
 }
 
