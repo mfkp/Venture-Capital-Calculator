@@ -1,6 +1,8 @@
 // ActionScript file
 // @author Kyle Powers, Jason Kruse
 import mx.collections.ArrayCollection;
+import mx.formatters.NumberBase;
+import mx.formatters.NumberBaseRoundType;
 
 private var seriesLetters:Array = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 private var curSeries:int = 0; 
@@ -90,7 +92,6 @@ private function calculate(saveNewRound:Boolean=true):void {
 			founders.firmValuation = founders.sharesOutstanding * founders.sharePrice; 	
 		}
 	}
-	mx.controls.Alert.show(totalVCOwnership + "");
 	if(this.incManagementPool) {
 		totalVCOwnership += Number(managementPercent.text) / 100;
 	}
@@ -107,6 +108,7 @@ private function fillGrid():void{
 	
 	var str:String; 
 	var i:int;
+	var base:NumberBase = new NumberBase();
 //begin: add headings
 	addDataGridColumn("col0", "Founders");
 	this.validateNow();
@@ -132,26 +134,26 @@ private function fillGrid():void{
 	addRow();
 //vc's required ROI
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = String(rounds[i-1].reqROI);
+		temp[String("col"+i)] = base.formatPrecision(String(100*(Number(String(rounds[i-1].reqROI)))),3) + "%";
 	}
 	addRow();
 //new vc investment
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = String(rounds[i-1].newInvestment);
+		temp[String("col"+i)] = base.formatThousands(String(Math.round(rounds[i-1].newInvestment)));
 	}
 	addRow();
 //vc's required terminal value
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = String(rounds[i-1].reqTerminalVal);
+		temp[String("col"+i)] = base.formatThousands(String(Math.round(rounds[i-1].reqTerminalVal)));
 	}
 	addRow();
 //terminal % ownership
 //WRONG
-	temp[String("col0")] = founders.terminalOwnership;
+	temp[String("col0")] = base.formatPrecision(String(100*(Number(founders.terminalOwnership))),3) + "%";
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = rounds[i-1].terminalOwnership;
+		temp[String("col"+i)] = base.formatPrecision(String(100*(Number(rounds[i-1].terminalOwnership))),3) + "%";
 	}
-	temp[String("col"+ (output_table.columns.length))] = managementPercent.text;
+	temp[String("col"+ (output_table.columns.length))] = base.formatPrecision(String(100*(Number(managementPercent.text))),3) + "%";
 	addRow();
 //retention %
 //WRONG

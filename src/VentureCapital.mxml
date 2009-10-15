@@ -47,10 +47,12 @@
 			<mx:SetStyle target="{inputParent}" name="top" value="50"/>
 		</mx:State>
 		<mx:State name="Start">
-			<mx:SetStyle target="{label1}" name="horizontalCenter" value="0"/>
-			<mx:AddChild position="lastChild">
-				<mx:Button x="10" y="0" label="DEBUG: Fill/Calc" click="debug()"/>
-			</mx:AddChild>
+			<mx:SetProperty target="{inputParent}" name="x"/>
+			<mx:SetStyle target="{inputParent}" name="horizontalCenter" value="0"/>
+			<mx:SetProperty target="{inputParent}" name="y"/>
+			<mx:SetProperty target="{inputParent}" name="width" value="90%"/>
+			<mx:SetStyle target="{inputParent}" name="top" value="59"/>
+			
 		</mx:State>
 	</mx:states>
 	
@@ -128,6 +130,7 @@
 		</mx:HBox>
 		<mx:ApplicationControlBar dock="true">
 		<mx:Button label="Calculate" id="calcbutton" click="calculate();"/>
+		<mx:Button x="10" y="0" label="DEBUG: Fill/Calc" click="debug()"/>
 		</mx:ApplicationControlBar>
 	</mx:VBox>	
 	
