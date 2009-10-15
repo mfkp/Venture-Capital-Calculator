@@ -65,6 +65,7 @@ private function calculate(saveNewRound:Boolean=true):void {
 	founders.initialOwnership = 100;
 	var sharesOutstanding:int;
 	var totalVCOwnership:Number = 0;
+	var laterInvestment:Number;
 	for(var x:int=0;x<series.length;x++) {
 		rounds[x] = new Object();
 		rounds[x].newInvestment = series[x].investmentAmount;
@@ -72,7 +73,8 @@ private function calculate(saveNewRound:Boolean=true):void {
 		rounds[x].reqROI = Number(series[x].targetROI);
 		rounds[x].reqTerminalVal = rounds[x].newInvestment * Math.pow(1 + rounds[x].reqROI,rounds[x].yearsToExit);
 		rounds[x].terminalOwnership = rounds[x].reqTerminalVal / atExit.firmValuation;
-		totalVCOwnership+= rounds[x].terminalOwnership;
+		totalVCOwnership += rounds[x].terminalOwnership;
+		
 		rounds[x].initialOwnership = rounds[x].newInvestment / ( int(earnings.text) * int(PERatio.text));
 		if(x==0) {
 			sharesOutstanding = founders.sharesOutstanding; 	
@@ -92,8 +94,27 @@ private function calculate(saveNewRound:Boolean=true):void {
 			founders.firmValuation = founders.sharesOutstanding * founders.sharePrice; 	
 		}
 	}
+	
+	// run through again for ownership percentages
+	for(var x:int=0;x<series.length;x++) {
+		laterInvestment =0;
+		for(var y:int=x+1;y<series.length;y++) {
+			laterInvestment += rounds[y].terminalOwnership;
+		}
+		if(this.incManagementPool) {
+			laterInvestment += Number(managementPercent.text) / 100;
+		}
+		rounds[x].retention = 1 - laterInvestment;
+		rounds[x].initialOwnership = rounds[x].terminalOwnership / rounds[x].retention;
+	}
+	
 	if(this.incManagementPool) {
 		totalVCOwnership += Number(managementPercent.text) / 100;
+		atExit.retention = Number(managementPercent.text) / 100;
+		atExit.initialOwnership = Number(managementPercent.text) / 100;
+	} else {
+		atExit.retention = "";
+		atExit.initialOwnership = "";
 	}
 	founders.terminalOwnership = Number(1 - totalVCOwnership);
 	for(var y:int=0;y<series.length-1;y++) {
@@ -122,15 +143,15 @@ private function fillGrid():void{
 
 //years from initiation
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = (int(toExit.text)/12) - rounds[i-1].yearsToExit;
+		temp[String("col"+i)] = base.formatPrecision(String((int(toExit.text)/12) - rounds[i-1].yearsToExit),1);
 	}
-	temp[String("col"+ (output_table.columns.length))] = rounds[0].yearsToExit;
+	temp[String("col"+ (output_table.columns.length))] = base.formatPrecision(String(rounds[0].yearsToExit),1);
 	addRow();
 //years to exit
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = rounds[i-1].yearsToExit;
+		temp[String("col"+i)] = base.formatPrecision(String(rounds[i-1].yearsToExit),1);
 	}
-	temp[String("col"+ (output_table.columns.length))] = (int(toExit.text)/12) - rounds[0].yearsToExit;
+	temp[String("col"+ (output_table.columns.length))] = base.formatPrecision(String(((int(toExit.text)/12) - rounds[0].yearsToExit)),1);
 	addRow();
 //vc's required ROI
 	for(i=1;i<output_table.columns.length - 1; i++) {
@@ -148,7 +169,6 @@ private function fillGrid():void{
 	}
 	addRow();
 //terminal % ownership
-//WRONG
 	temp[String("col0")] = base.formatPrecision(String(100*(Number(founders.terminalOwnership))),3) + "%";
 	for(i=1;i<output_table.columns.length - 1; i++) {
 		temp[String("col"+i)] = base.formatPrecision(String(100*(Number(rounds[i-1].terminalOwnership))),3) + "%";
@@ -156,20 +176,19 @@ private function fillGrid():void{
 	temp[String("col"+ (output_table.columns.length))] = base.formatPrecision(String(100*(Number(managementPercent.text))),3) + "%";
 	addRow();
 //retention %
-//WRONG
-	temp[String("col0")] = "99";
+	temp[String("col0")] = base.formatPrecision(String(100*(Number(String(founders.terminalOwnership)))),3) + "%";
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = "99";
+		temp[String("col"+i)] = base.formatPrecision(String(100*(Number(String(rounds[i-1].retention)))),3) + "%";
 	}
-	temp[String("col"+ (output_table.columns.length))] = "99";
+	temp[String("col"+ (output_table.columns.length))] = base.formatPrecision(String(100*(Number(String(atExit.retention)))),3) + "%";
 	addRow();
 //initial % ownership
 //WRONG
-	temp[String("col0")] = String(founders.initialOwnership);
+	temp[String("col0")] = "100%";
 	for(i=1;i<output_table.columns.length - 1; i++) {
-		temp[String("col"+i)] = String(rounds[i-1].initialOwnership);
+		temp[String("col"+i)] = base.formatPrecision(String(100*(Number(String(rounds[i-1].initialOwnership)))),3) + "%";
 	}
-	temp[String("col"+ (output_table.columns.length))] = "99";
+	temp[String("col"+ (output_table.columns.length))] = base.formatPrecision(String(100*(Number(String(atExit.initialOwnership)))),3) + "%";
 	addRow();
 //shares issued
 //WRONG

@@ -7,9 +7,6 @@
             public var labels:Array = ["Years from Initiation", "Years to Exit", "VC's Required ROI", "New VC Investment", 
             							"VC's Rqd Terminal Value", "Terminal % Ownership", "Retention %", "Initial % Ownership",
             							"Shares Issued", "Shares Outstanding", "Share Price", "Firm Valuation", "Investment value at exit"]; 
-            [Bindable]
- 			public var columns:Array = ["hello"];
- 			//columns.push("Col1");
         ]]>
 
     </mx:Script>
@@ -52,7 +49,6 @@
 			<mx:SetProperty target="{inputParent}" name="y"/>
 			<mx:SetProperty target="{inputParent}" name="width" value="90%"/>
 			<mx:SetStyle target="{inputParent}" name="top" value="59"/>
-			
 		</mx:State>
 	</mx:states>
 	
