@@ -12,6 +12,7 @@
 
     </mx:Script>
     <mx:Script source="VCCalc.as" />
+	<mx:SeriesInterpolate id="interpolateIn" duration="700"/>
 	<mx:states>
 		<mx:State name="Output">
 			<mx:RemoveChild target="{vbox1}"/>
@@ -75,18 +76,41 @@
 			<mx:SetProperty target="{calcbutton}" name="label" value="Home"/>
 			<mx:SetProperty name="height" value="600"/>
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
-				<mx:LineChart id="roundGraph" dataProvider="{rounds}">
+				<mx:LineChart id="roundGraph" dataProvider="{rounds}" width="292" height="301">
 					<mx:horizontalAxis>
 		                <mx:CategoryAxis categoryField="monToInvestment"/>
 		            </mx:horizontalAxis>
 					<mx:series>
 		                <mx:LineSeries yField="firmValuation" form="curve" displayName="Firm Valuation" />
-		                <mx:LineSeries yField="totalInvestment" form="step" displayName="Investment"/>
+		                <mx:LineSeries yField="totalInvestment" form="step" displayName="Investment" />
   		            </mx:series>
 				</mx:LineChart>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
-				<mx:Legend dataProvider="{roundGraph}"/>
+				<mx:PieChart id="roundPieGraph" dataProvider="{roundsPie}" width="307" height="291">
+					<mx:series>
+		                <mx:PieSeries 
+		                    nameField="round"
+		                    field="sharesIssued"
+		                    showDataEffect="interpolateIn" 
+  		                />
+		            </mx:series>
+
+				</mx:PieChart>
+				
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
+				<mx:Legend dataProvider="{roundPieGraph}" id="legend2"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{roundGraph}" position="before">
+				<mx:Legend dataProvider="{roundGraph}" id="legend1"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{legend2}" position="before">
+				<mx:Canvas width="100" height="93">
+					<mx:Button x="10" y="10" label="&lt;" id="piePrev" click="scrollPie(-1)"/>
+					<mx:Button x="10" y="71" label="&gt;" id="pieNext" click="scrollPie(1)"/>
+					<mx:Label x="10" y="40" id="pieSeriesLabel"/>
+				</mx:Canvas>
 			</mx:AddChild>
 			<mx:SetProperty target="{inputParent}" name="height"/>
 			<mx:SetProperty target="{hbox3}" name="height" value="412"/>

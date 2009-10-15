@@ -10,18 +10,51 @@ private var series:Array = new Array();
 //outputs
 private var founders:Object = new Object();
 [Bindable]private var rounds:Array = new Array();
+[Bindable]private var roundsPie:ArrayCollection = new ArrayCollection();
 private var atExit:Object = new Object();
 private var objColl:ArrayCollection = new ArrayCollection();
 private var temp:Object = new Object(); 
 private var incManagementPool:Boolean =false;
-
+private var pieCurSeries:int = 0;
 private function showGraphs():void {
 	currentState='Graphs';
+	pieCurSeries = 0;
+	piePrev.enabled = false;
+	pieSeriesLabel.text = "Series " + (pieCurSeries + 1);
+	roundsPie.removeAll();	
+	roundsPie.addItem( { round: 'Founders', sharesIssued: 1000000 });
+
+	
 	if(rounds.length == series.length) {
 		rounds[rounds.length] = new Object();
 		rounds[rounds.length-1].totalInvestment = rounds[rounds.length-2].totalInvestment;
 		rounds[rounds.length-1].firmValuation = atExit.firmValuation;
 	}
+}
+private function scrollPie(dir:int):void {
+	pieCurSeries += dir;
+	trace(pieCurSeries,rounds.length);
+	if(dir > 0) {
+		// add something to array collection
+		piePrev.enabled = true;
+		var title:String;
+		if(pieCurSeries >= rounds.length) {
+			pieNext.enabled = false;
+			title = "Exit";
+		} else {
+			title = "Round " + pieCurSeries;
+		}
+		roundsPie.addItem(new PieChartItem(title,rounds[pieCurSeries-1].sharesIssued));	
+	} else {
+		// remove last item form array collection
+		pieNext.enabled = true;
+		if(pieCurSeries == 0) {
+			piePrev.enabled = false;
+		}
+		roundsPie.removeItemAt(roundsPie.length -1);
+		
+	}
+	
 }
 private function debug():void {
 	// fill out all text boxes
@@ -278,6 +311,14 @@ private function switchRound(dir:int):void {
 	} else {
 		nextbtn.enabled = false;
 	}
+	try {
+		monToInvestment.text = series[curSeries].monToInvestment;
+		investmentAmount.text = series[curSeries].investmentAmount;
+		targetROI.text = series[curSeries].targetROI;
+	} catch(e:Error) {
+		
+	}
+	
 	serieslbl.text = "Series " + seriesLetters[curSeries];
 }
 
