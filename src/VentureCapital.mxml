@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" preloader="preload.CustomPreloader" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" preloader="preload.CustomPreloader" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start" viewSourceURL="srcview/index.html">
 	<!--  -->
 	<mx:Script>
         <![CDATA[
@@ -80,9 +80,9 @@
 			<mx:SetProperty target="{calcbutton}" name="label" value="Home"/>
 			<mx:SetProperty name="height" value="480"/>
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
-				<mx:LineChart id="roundGraph" dataProvider="{rounds}" width="292" height="301">
+				<mx:LineChart id="roundGraph" dataProvider="{rounds}" showDataTips="true" width="292" height="301">
 					<mx:horizontalAxis>
-		                <mx:CategoryAxis categoryField="monToInvestment"/>
+		                <mx:CategoryAxis categoryField="monToInvestment" title="Months to Investment"/>
 		            </mx:horizontalAxis>
 					<mx:series>
 		                <mx:LineSeries yField="firmValuation" form="curve" displayName="Firm Valuation" />
@@ -91,12 +91,12 @@
 				</mx:LineChart>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
-				<mx:PieChart id="roundPieGraph" dataProvider="{roundsPie}" width="307" height="291">
+				<mx:PieChart id="roundPieGraph" dataProvider="{roundsPie}" showDataTips="true" width="307" height="291">
 					<mx:series>
 		                <mx:PieSeries 
 		                    nameField="round"
 		                    field="sharesIssued"
-		                    showDataEffect="interpolateIn" 
+		                    showDataEffect="interpolateIn"
   		                />
 		            </mx:series>
 
@@ -109,19 +109,27 @@
 			<mx:AddChild relativeTo="{roundGraph}" position="before">
 				<mx:Legend dataProvider="{roundGraph}" id="legend1"/>
 			</mx:AddChild>
-			<mx:AddChild relativeTo="{legend2}" position="before">
-				<mx:Canvas width="100" height="93">
-					<mx:Button x="10" y="10" label="&lt;" id="piePrev" click="scrollPie(-1)"/>
-					<mx:Button x="10" y="71" label="&gt;" id="pieNext" click="scrollPie(1)"/>
-					<mx:Label x="10" y="40" id="pieSeriesLabel"/>
-				</mx:Canvas>
-			</mx:AddChild>
 			<mx:SetProperty target="{inputParent}" name="height"/>
 			<mx:SetProperty target="{hbox3}" name="height" value="350"/>
 			<mx:SetStyle target="{inputParent}" name="bottom" value="156"/>
 			<mx:SetProperty name="width" value="950"/>
 			<mx:SetStyle target="{hbox3}" name="verticalAlign" value="middle"/>
 			<mx:SetStyle name="verticalAlign" value="middle"/>
+			<mx:AddChild position="lastChild">
+				<mx:HBox width="200" horizontalAlign="center" y="376" x="520">
+					<mx:Button label="&lt;" id="piePrev" click="scrollPie(-1)"/>
+					<mx:Label id="pieSeriesLabel"/>
+					<mx:Button label="&gt;" id="pieNext" click="scrollPie(1)"/>
+				</mx:HBox>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Label text="Investment vs. Valuation" x="180" y="35" fontSize="16"/>
+			</mx:AddChild>
+			<mx:RemoveChild target="{label1}"/>
+			<mx:SetStyle target="{hbox3}" name="horizontalGap" value="20"/>
+			<mx:AddChild position="lastChild">
+				<mx:Label text="Percentage Ownership (per series)" x="480" y="35" fontSize="16"/>
+			</mx:AddChild>
 		</mx:State>
 	</mx:states>
 	

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source of VentureCapital</title>
+	<nodes>
+		<node label="libs">
+		</node>
+		<node label="src" icon="classpathIcon" expanded="true">
+			<node label="preload" icon="packageIcon" expanded="true">
+				<node label="CustomPreloader.as" icon="actionScriptIcon" url="source/preload/CustomPreloader.as.html"/>
+				<node label="welcome.png" icon="imageIcon" url="source/preload/welcome.png.html"/>
+				<node label="WelcomeScreen.as" icon="actionScriptIcon" url="source/preload/WelcomeScreen.as.html"/>
+			</node>
+			<node label="index.html" icon="htmlIcon" url="source/index.html"/>
+			<node label="PieChartItem.as" icon="actionScriptIcon" url="source/PieChartItem.as.html"/>
+			<node label="VCCalc.as" icon="actionScriptIcon" url="source/VCCalc.as.html"/>
+			<node label="VentureCapital-app.xml" url="source/VentureCapital-app.xml.txt"/>
+			<node selected="true" label="VentureCapital.mxml" icon="mxmlAppIcon" url="source/VentureCapital.mxml.html"/>
+		</node>
+		<node label="cert.p12" url="source/cert.p12"/>
+		<node label="VentureCapital.air" url="source/VentureCapital.air"/>
+	</nodes>
+</index>
