@@ -11,6 +11,7 @@ private var founders:Object = new Object();
 private var rounds:Array = new Array();
 private var atExit:Object = new Array();
 private var objColl:ArrayCollection = new ArrayCollection();
+private var temp:Object = new Object(); 
 
 private function debug():void {
 	// fill out all text boxes
@@ -91,7 +92,8 @@ private function calculate():void {
 private function fillGrid():void{
 	
 	var str:String; 
-	var temp:Object = new Object(); 
+	var i:int;
+//begin: add headings
 	addDataGridColumn("col0", "Founders");
 	this.validateNow();
 	for(var x:int=1;x<= int(numRounds.text); x++){
@@ -100,17 +102,104 @@ private function fillGrid():void{
 	}
 	addDataGridColumn("col" + (output_table.columns.length + 1), "Exit");
 	this.validateNow();
-	
-	for(var i:int=1;i<output_table.columns.length - 1; i++) {
-		//str = String("col"+Number(i)); 
+//end: add headings
+
+//years from initiation
+	for(i=1;i<output_table.columns.length - 1; i++) {
 		temp[String("col"+i)] = (int(toExit.text)/12) - rounds[i-1].yearsToExit;
 	}
-	arrCol.addItem(temp);
-	for(var i:int=1;i<output_table.columns.length - 1; i++) {
+	temp[String("col"+ (output_table.columns.length))] = rounds[0].yearsToExit;
+	addRow();
+//years to exit
+	for(i=1;i<output_table.columns.length - 1; i++) {
 		temp[String("col"+i)] = rounds[i-1].yearsToExit;
 	}
+	temp[String("col"+ (output_table.columns.length))] = (int(toExit.text)/12) - rounds[0].yearsToExit;
+	addRow();
+//vc's required ROI
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = String(rounds[i-1].reqROI);
+	}
+	addRow();
+//new vc investment
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = String(rounds[i-1].newInvestment);
+	}
+	addRow();
+//vc's required terminal value
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = String(rounds[i-1].reqTerminalVal);
+	}
+	addRow();
+//terminal % ownership
+//WRONG
+	temp[String("col0")] = "99";
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = "99";
+	}
+	temp[String("col"+ (output_table.columns.length))] = "99";
+	addRow();
+//retention %
+//WRONG
+	temp[String("col0")] = "99";
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = "99";
+	}
+	temp[String("col"+ (output_table.columns.length))] = "99";
+	addRow();
+//initial % ownership
+//WRONG
+	temp[String("col0")] = String(founders.initialOwnership);
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = String(rounds[i-1].initialOwnership);
+	}
+	temp[String("col"+ (output_table.columns.length))] = "99";
+	addRow();
+//shares issued
+//WRONG
+	temp[String("col0")] = String(founders.sharesIssued);
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = String(rounds[i-1].sharesIssued);
+	}
+	temp[String("col"+ (output_table.columns.length))] = "99";
+	addRow();
+//shares outstanding
+//WRONG
+	temp[String("col0")] = String(founders.sharesOutstanding);
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = String(rounds[i-1].sharesOutstanding);
+	}
+	temp[String("col"+ (output_table.columns.length))] = "99";
+	addRow();
+//share price
+//WRONG
+	temp[String("col0")] = String(founders.sharePrice);
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = String(rounds[i-1].sharePrice);
+	}
+	temp[String("col"+ (output_table.columns.length))] = "99";
+	addRow();
+//firm valuation
+//WRONG (round 3 is right)
+	temp[String("col0")] = String(founders.firmValuation);
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = String(rounds[i-1].firmValuation);
+	}
+	temp[String("col"+ (output_table.columns.length))] = "99";
+	addRow();
+//investment value at exit
+//WRONG
+	temp[String("col0")] = String(founders.investmentValueAtExit);
+	for(i=1;i<output_table.columns.length - 1; i++) {
+		temp[String("col"+i)] = String(rounds[i-1].investmentValueAtExit);
+	}
+	temp[String("col"+ (output_table.columns.length))] = "99";
+	addRow();
+}
+
+private function addRow():void {
 	arrCol.addItem(temp);
-	
+	temp=[];
 }
 
 private function switchRound(dir:int):void {
