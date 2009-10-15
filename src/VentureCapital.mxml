@@ -67,14 +67,17 @@
 			<mx:AddChild relativeTo="{hbox4}" position="lastChild" target="{calcbutton}"/>
 			<mx:SetProperty target="{calcbutton}" name="width" value="50%"/>
 			<mx:SetProperty target="{demobutton}" name="width" value="50%"/>
+			<mx:SetProperty target="{vbox4}" name="height"/>
+			<mx:SetProperty target="{hbox1}" name="height" value="55"/>
+			<mx:SetStyle target="{vbox1}" name="verticalAlign" value="top"/>
 		</mx:State>
 		<mx:State name="Graphs" basedOn="Output">
 			<mx:RemoveChild target="{output_table}"/>
 			<mx:RemoveChild target="{datagrid1}"/>
 			<mx:SetProperty target="{backtotablebutton}" name="label" value="Back to Table"/>
-			<mx:SetEventHandler target="{backtotablebutton}" name="click" handler="currentState='Output';this.height=451;this.width=800;"/>
+			<mx:SetEventHandler target="{backtotablebutton}" name="click" handler="currentState='Output';this.height=480;this.width=800;"/>
 			<mx:SetProperty target="{calcbutton}" name="label" value="Home"/>
-			<mx:SetProperty name="height" value="600"/>
+			<mx:SetProperty name="height" value="480"/>
 			<mx:AddChild relativeTo="{hbox3}" position="lastChild">
 				<mx:LineChart id="roundGraph" dataProvider="{rounds}" width="292" height="301">
 					<mx:horizontalAxis>
@@ -113,8 +116,11 @@
 				</mx:Canvas>
 			</mx:AddChild>
 			<mx:SetProperty target="{inputParent}" name="height"/>
-			<mx:SetProperty target="{hbox3}" name="height" value="412"/>
-			<mx:SetStyle target="{inputParent}" name="bottom" value="20"/>
+			<mx:SetProperty target="{hbox3}" name="height" value="350"/>
+			<mx:SetStyle target="{inputParent}" name="bottom" value="156"/>
+			<mx:SetProperty name="width" value="950"/>
+			<mx:SetStyle target="{hbox3}" name="verticalAlign" value="middle"/>
+			<mx:SetStyle name="verticalAlign" value="middle"/>
 		</mx:State>
 	</mx:states>
 	
@@ -133,7 +139,7 @@
 				<mx:Label text="Months to exit" />
 				<mx:Label text="Investment rounds" /> 
 			</mx:VBox>
-			<mx:VBox width="50%" height="100%">
+			<mx:VBox width="50%" height="100%" id="vbox4">
 				<mx:TextInput id="toExit" tabIndex="1"/>
 				<mx:TextInput id="numRounds" change="openRounds()" tabIndex="2"/>
 			</mx:VBox>
