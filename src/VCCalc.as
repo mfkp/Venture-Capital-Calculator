@@ -40,7 +40,7 @@ private function showGraphs():void {
 	pieCurSeries = 0;
 	piePrev.enabled = false;
 	pieNext.enabled = true;
-	pieSeriesLabel.text = "Series " + (pieCurSeries + 1);
+	pieSeriesLabel.text = "Round " + (pieCurSeries + 1);
 	roundsPie.removeAll();	
 	roundsPie.addItem( { round: 'Founders', sharesIssued: 1000000 });
 
@@ -111,9 +111,11 @@ private function toggleManPool(open:Boolean):void {
 		this.managementSharesParent.height = 30;
 		this.height += 30;
 	} else {
-		incManagementPool = false;
+		
 		this.managementSharesParent.height = 0;
-		this.height -= 30;
+		if(incManagementPool) 
+			this.height -= 30;
+		incManagementPool = false;
 	}
 }
 private function saveRound():void {

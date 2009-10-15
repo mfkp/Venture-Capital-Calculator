@@ -31,7 +31,7 @@
 				</mx:AdvancedDataGrid>
 			</mx:AddChild>
 			<mx:SetProperty target="{calcbutton}" name="label" value="Home"/>
-			<mx:SetEventHandler target="{calcbutton}" name="click" handler="currentState='Start'; this.height=451; this.width=400;"/>
+			<mx:SetEventHandler target="{calcbutton}" name="click" handler="currentState='Start'; this.height=481; this.width=400;"/>
 			<mx:SetProperty target="{inputParent}" name="x"/>
 			<mx:SetStyle target="{inputParent}" name="horizontalCenter" value="0"/>
 			<mx:SetProperty target="{inputParent}" name="y"/>
