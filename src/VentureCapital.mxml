@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="402" currentState="Start">
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" preloader="preload.CustomPreloader" borderColor="#868686" backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#E6EFF7, #F5F5F5]" height="451" width="400" currentState="Start">
 	<mx:Script>
         <![CDATA[
 
@@ -27,13 +27,13 @@
 					</mx:columns>
 				</mx:AdvancedDataGrid>
 			</mx:AddChild>
-			<mx:SetProperty target="{calcbutton}" name="label" value="Back"/>
-			<mx:SetEventHandler target="{calcbutton}" name="click" handler="currentState='Start'"/>
+			<mx:SetProperty target="{calcbutton}" name="label" value="Home"/>
+			<mx:SetEventHandler target="{calcbutton}" name="click" handler="currentState='Start'; this.height=451; this.width=400;"/>
 			<mx:SetProperty target="{inputParent}" name="x"/>
 			<mx:SetStyle target="{inputParent}" name="horizontalCenter" value="0"/>
 			<mx:SetProperty target="{inputParent}" name="y"/>
 			<mx:AddChild relativeTo="{output_table}" position="before">
-				<mx:DataGrid dataProvider="{labels}" width="150" height="100%">
+				<mx:DataGrid dataProvider="{labels}" width="150" height="100%" id="datagrid1">
 					<mx:columns>
 						<mx:DataGridColumn headerText=" " dataField="col1"/>
 					</mx:columns>
@@ -42,6 +42,10 @@
 			<mx:SetProperty target="{hbox3}" name="height" value="100%"/>
 			<mx:SetProperty target="{inputParent}" name="height" value="100%"/>
 			<mx:SetStyle target="{inputParent}" name="top" value="50"/>
+			<mx:SetProperty name="width" value="800"/>
+			<mx:AddChild relativeTo="{applicationcontrolbar1}" position="lastChild">
+				<mx:Button label="Show Graph" id="backtotablebutton" click="currentState='Graphs';"/>
+			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Start">
 			<mx:SetProperty target="{inputParent}" name="x"/>
@@ -49,6 +53,14 @@
 			<mx:SetProperty target="{inputParent}" name="y"/>
 			<mx:SetProperty target="{inputParent}" name="width" value="90%"/>
 			<mx:SetStyle target="{inputParent}" name="top" value="59"/>
+		</mx:State>
+		<mx:State name="Graphs" basedOn="Output">
+			<mx:RemoveChild target="{output_table}"/>
+			<mx:RemoveChild target="{datagrid1}"/>
+			<mx:SetProperty target="{backtotablebutton}" name="label" value="Back to Table"/>
+			<mx:SetEventHandler target="{backtotablebutton}" name="click" handler="currentState='Output';this.height=451;this.width=800;"/>
+			<mx:SetProperty target="{calcbutton}" name="label" value="Home"/>
+			<mx:SetProperty name="height" value="600"/>
 		</mx:State>
 	</mx:states>
 	
@@ -60,7 +72,7 @@
         </mx:source>
     </mx:ArrayCollection>
 	
-	<mx:Label y="20" text="Venture Capital Method" horizontalCenter="-13" fontSize="20" id="label1"/>
+	<mx:Label y="20" text="Venture Capital Method" horizontalCenter="0" fontSize="20" id="label1"/>
 	<mx:VBox width="100%" x="20" y="59" id="inputParent">
 		<mx:HBox width="100%" id="hbox1">
 			<mx:VBox width="50%" height="100%" id="vbox1">
@@ -124,7 +136,7 @@
 				<mx:TextInput id="earnings" tabIndex="11" />
 			</mx:VBox>
 		</mx:HBox>
-		<mx:ApplicationControlBar dock="true">
+		<mx:ApplicationControlBar dock="true" id="applicationcontrolbar1">
 		<mx:Button label="Calculate" id="calcbutton" click="calculate();"/>
 		<mx:Button x="10" y="0" label="DEBUG: Fill/Calc" click="debug()"/>
 		</mx:ApplicationControlBar>
