@@ -279,6 +279,14 @@ private function switchRound(dir:int):void {
 	} else {
 		nextbtn.enabled = false;
 	}
+	try {
+		monToInvestment.text = series[curSeries].monToInvestment;
+		investmentAmount.text = series[curSeries].investmentAmount;
+		targetROI.text = series[curSeries].targetROI;
+	} catch(e:Error) {
+		
+	}
+	
 	serieslbl.text = "Series " + seriesLetters[curSeries];
 }
 
