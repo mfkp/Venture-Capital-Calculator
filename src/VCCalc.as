@@ -55,6 +55,8 @@ private function test():void {
 	
 }
 private function calculate(saveNewRound:Boolean=true):void {
+	var x:int;
+	var y:int;
 	if(saveNewRound)
 		saveRound();
 	atExit.firmValuation = int(PERatio.text) * int(earnings.text);
@@ -66,7 +68,7 @@ private function calculate(saveNewRound:Boolean=true):void {
 	var sharesOutstanding:int;
 	var totalVCOwnership:Number = 0;
 	var laterInvestment:Number;
-	for(var x:int=0;x<series.length;x++) {
+	for(x=0;x<series.length;x++) {
 		rounds[x] = new Object();
 		rounds[x].newInvestment = series[x].investmentAmount;
 		rounds[x].yearsToExit = (int(toExit.text) /12) - (series[x].monToInvestment / 12);
@@ -96,9 +98,9 @@ private function calculate(saveNewRound:Boolean=true):void {
 	}
 	
 	// run through again for ownership percentages
-	for(var x:int=0;x<series.length;x++) {
+	for(x=0;x<series.length;x++) {
 		laterInvestment =0;
-		for(var y:int=x+1;y<series.length;y++) {
+		for(y=x+1;y<series.length;y++) {
 			laterInvestment += rounds[y].terminalOwnership;
 		}
 		if(this.incManagementPool) {
@@ -117,7 +119,7 @@ private function calculate(saveNewRound:Boolean=true):void {
 		atExit.initialOwnership = "";
 	}
 	founders.terminalOwnership = Number(1 - totalVCOwnership);
-	for(var y:int=0;y<series.length-1;y++) {
+	for(y=0;y<series.length-1;y++) {
 		rounds[y].investmentValueAtExit = rounds[y].sharesIssued * rounds[rounds.length-1].sharePrice;
 	}
 	founders.investmentValueAtExit = founders.sharesIssued * rounds[rounds.length-1].sharePrice;
